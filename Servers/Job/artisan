@@ -1,0 +1,64 @@
+<?php
+define('PROJECT_WORK_ROOT', dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR); // 项目根目录
+include PROJECT_WORK_ROOT . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+class Command extends \BxdFramework\Base\Bootstrap
+{
+    /**
+     * 执行
+     * @param $argv
+     * @author zm
+     */
+    public static function run($argv)
+    {
+        if (empty($argv)) {
+            die("argv null\n");
+        }
+        
+        if (count($argv) === 1) {
+            die(self::help());
+        }
+        
+        if (!isset($argv[1])) {
+            die(self::help());
+        }
+        
+        self::handle($argv[1], (isset($argv[2]) ? $argv[2] : ''));
+    }
+
+    /**
+     * 直接调用Job
+     * @param $method
+     * @param $args
+     * @author zm
+     */
+    public static function handle($method, $args = [])
+    {
+        if (empty($method)) {
+            die("method or args is null\n");
+        }
+
+        // 加载配置 启动前调用
+        self::startUp(PROJECT_WORK_ROOT);
+        
+        // 加载所有配置
+        \BxdFramework\Base\Conf::load(self::$ini['init']['dir'], explode(',', self::$ini['swoole']['workerConf']));
+        // 执行
+        \BxdFramework\Base\Job::execute($method, $args);
+    }
+    
+    public static function help()
+    {
+        $string = <<<HELP
+    \033[36m Usage \033[0m:
+        /home/service/php7/bin/php /home/work/srv_server/Servers/Job/artisan price/get(需要执行的 文件/函数) a=b,c=d,...(传的参数)
+        * * * * * /home/service/php7/bin/php /home/work/srv_server/Servers/Job/artisan price/get(需要执行的 文件/函数) a=b,c=d,...(传的参数)  >> /data/logs/prod_logs/xx.`date +\%Y\%m\%d`.log 2>&1
+    \n
+HELP;
+        return $string;
+    }
+}
+// 传参数
+$argv = $argv?? [];
+// 执行程序
+Command::run($argv);

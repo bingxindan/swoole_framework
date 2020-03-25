@@ -1,0 +1,33 @@
+{
+  "name": "bingxindan/bxd_framework",
+  "type": "library",
+  "description": "PHP Framework based on swoole",
+  "authors": [
+    {
+      "name": "bxd",
+      "email": "bxd@bingxindan.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "BxdFramework\\Base\\": "Base",
+      "BxdFramework\\Controllers\\": "Controllers",
+      "BxdFramework\\Models\\": "Models",
+      "BxdFramework\\Helpers\\": "Helpers",
+      "BxdFramework\\Jobs\\": "Jobs",
+      "BxdFramework\\DataBase\\": "Packages/bxd/database/src",
+      "BxdFramework\\Basic\\": "Packages/bxd/basic/src",
+      "BxdFramework\\Cmd\\": "Packages/bxd/cmd/src",
+      "BxdFramework\\ImageStyle\\": "Packages/bxd/imageStyle/src",
+      "BxdFramework\\RestCall\\": "Packages/bxd/restcall/src",
+      "BxdFramework\\BxdRedis\\": "Packages/bxd/bxdredis/src",
+      "BxdFramework\\Refer\\": "Packages/bxd/refer/src",
+      "BxdFramework\\RabbitMq\\": "Packages/bxd/rabbitmq/src"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php-amqplib/php-amqplib": ">=2.6.1"
+  }
+}
